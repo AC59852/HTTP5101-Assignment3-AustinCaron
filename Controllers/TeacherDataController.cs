@@ -16,15 +16,15 @@ namespace HTTP5101_Assignment3_AustinCaron.Controllers
 
         //This Controller Will access the authors table of our blog database.
         /// <summary>
-        /// Returns a list of Authors in the system
+        /// Returns a list of Teachers in the system
         /// </summary>
-        /// <example>GET api/AuthorData/ListAuthors</example>
+        /// <example>GET api/TeacherData/ListTeachers</example>
         /// <returns>
-        /// A list of authors (first names and last names)
+        /// A list of teachers and their info
         /// </returns>
         [HttpGet]
         [Route("api/TeacherData/ListTeachers")]
-        public IEnumerable<string> ListAuthors()
+        public IEnumerable<string> ListTeachers()
         {
             //Create an instance of a connection
             MySqlConnection Conn = School.AccessDatabase();
@@ -41,31 +41,23 @@ namespace HTTP5101_Assignment3_AustinCaron.Controllers
             //Gather Result Set of Query into a variable
             MySqlDataReader ResultSet = cmd.ExecuteReader();
 
-            //Create an empty list of Author Names
+            //Create an empty list of Teacher Data
             List<string> TeacherData = new List<string> { };
 
-            //Loop Through Each Row the Result Set
+            //Loop Through Each Row in the Result Set
             while (ResultSet.Read())
             {
                 //Access Column information by the DB column name as an index
                 string TeacherName = ResultSet["teacherfname"] + " " + ResultSet["teacherlname"];
-                string EmployeeNumber = (string)ResultSet["employeenumber"];
-                string HireDate = ResultSet["hiredate"].ToString();
-                string Salary = ResultSet["salary"].ToString();
 
                 //Add the Teacher Data to the List
                 TeacherData.Add(TeacherName);
-                TeacherData.Add(EmployeeNumber);
-                TeacherData.Add(HireDate);
-                TeacherData.Add(Salary);
-
-
             }
 
             //Close the connection between the MySQL Database and the WebServer
             Conn.Close();
 
-            //Return the final list of author names
+            //Return all of the teacher data
             return TeacherData;
         }
 
