@@ -1,14 +1,16 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
-}
+    // Viewbag title changes the name of the page
+    ViewBag.Title = "Show";
 
-<h2>Teacher Name: @ViewData["TeacherName"]</h2>
+    // defining data variable allows access to the data stored inside of the object
+    var data = ViewBag.Teacher;
+}
+<h2>Teacher Name: @data.Name</h2>
 <h3>Info:</h3>
 <ul>
-    <li><p>Employee Number: @ViewData["EmployeeNumber"]</p></li>
-    <li><p>Hire Date: @ViewData["HireDate"]</p></li>
-    <li><p>Salary: @ViewData["Salary"]</p></li>
+    <li><p>Employee Number: @data.EmployeeNumber</p></li>
+    <li><p>Hire Date: @data.HireDate</p></li>
+    <li><p>Salary: @data.Salary</p></li>
 </ul>
 
- 

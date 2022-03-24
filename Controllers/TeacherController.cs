@@ -12,43 +12,61 @@ namespace HTTP5101_Assignment3_AustinCaron.Controllers
     {
         private SchoolDbContext School = new SchoolDbContext();
 
+        // GET: TeacherList
         [Route("/Teacher/List")]
+        public ActionResult List()
+        {
+            return View();
+        }
 
         // GET: Teacher
         [Route("/Teacher/Show/{id}")]
-        public ActionResult Show(int id)
+        public ActionResult Show(string id)
         {
-            string TeacherName,
-                   EmployeeNumber,
-                   HireDate,
-                   Salary;
 
             MySqlConnection Conn = School.AccessDatabase();
 
-            //Open the connection between the web server and database
+            // Open the connection between the web server and database
             Conn.Open();
 
-            //Establish a new command (query) for our database
+            // Establish a new command (query) for our database
             MySqlCommand cmd = Conn.CreateCommand();
 
-            //SQL QUERY
+            // Query based on the id input into the URL
             cmd.CommandText = "Select * from teachers Where " + id + " = teacherid";
 
-            //Gather Result Set of Query into a variable
-            MySqlDataReader ResultSet = cmd.ExecuteReader();
-
-            while (ResultSet.Read())
+            // check if there is an id in the url
+            if (id != null)
             {
-                //Access Column information by the DB column name as an index
-                TeacherName = ResultSet["teacherfname"] + " " + ResultSet["teacherlname"];
-                EmployeeNumber = (string)ResultSet["employeenumber"];
-                HireDate = ResultSet["hiredate"].ToString();
-                Salary = ResultSet["salary"].ToString();
+                // Gather Result Set of Query into a variable
+                MySqlDataReader ResultSet = cmd.ExecuteReader();
 
-                ViewData["TeacherName"] = TeacherName;
-                ViewData["EmployeeNumber"] = EmployeeNumber;
-                ViewData["HireDate"] = HireDate;
-                ViewData["Salary"] = Salary;
+                while (ResultSet.Read())
+                {
+                    /// create a new teacher object using the Teacher template, and fill in the properties
+                    /// with the received data from the DB
+                    Teacher teacher = new Teacher
+                    {
+                        Name = (string)ResultSet["teacherfname"] + " " + ResultSet["teacherlname"],
+                        EmployeeNumber = (string)ResultSet["employeenumber"],
+                        HireDate = (DateTime)ResultSet["hiredate"],
+                        Salary = (decimal)ResultSet["salary"]
+                    };
+
+                    ViewBag.Teacher = teacher;
+                }
+            } 
+            else
+            {
+                // if there is no id in the url, still create the object but fill it with unknown
+                Teacher teacher = new Teacher
+                {
+                    Name = "Uknown Name",
+                    EmployeeNumber = "Uknown Number",
+                    Salary = 0
+                };
+
+                ViewBag.Teacher = teacher;
             }
 
             Conn.Close();
