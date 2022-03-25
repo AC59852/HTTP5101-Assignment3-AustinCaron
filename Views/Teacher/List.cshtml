@@ -1,7 +1,18 @@
-﻿
+﻿@model IEnumerable<HTTP5101_Assignment3_AustinCaron.Models.Teacher>
+
 @{
     ViewBag.Title = "List";
 }
 
-<h2>List</h2>
+<h2>List of Teachers:</h2>
+<div>
+    @{ 
+        foreach(HTTP5101_Assignment3_AustinCaron.Models.Teacher Teacher in Model)
+        {
+            <div>
+                <a href="/Teacher/Show/@Teacher.Id">@Teacher.Name</a>
+            </div>
+        }
+    }
+</div>
 

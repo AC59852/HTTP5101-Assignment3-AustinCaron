@@ -1,4 +1,5 @@
 ﻿
+@model HTTP5101_Assignment3_AustinCaron.Models.Teacher
 @{
     // Viewbag title changes the name of the page
     ViewBag.Title = "Show";
@@ -6,11 +7,11 @@
     // defining data variable allows access to the data stored inside of the object
     var data = ViewBag.Teacher;
 }
-<h2>Teacher Name: @data.Name</h2>
+<h2>Teacher Name: @Model.Name</h2>
 <h3>Info:</h3>
 <ul>
-    <li><p>Employee Number: @data.EmployeeNumber</p></li>
-    <li><p>Hire Date: @data.HireDate</p></li>
-    <li><p>Salary: @data.Salary</p></li>
+    <li><p>Employee Number: @Model.EmployeeNumber</p></li>
+    <li><p>Hire Date: @Model.HireDate</p></li>
+    <li><p>Salary: @Model.Salary</p></li>
 </ul>
 
