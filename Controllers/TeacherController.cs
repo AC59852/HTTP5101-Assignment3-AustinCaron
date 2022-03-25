@@ -11,9 +11,13 @@ namespace HTTP5101_Assignment3_AustinCaron.Controllers
 {
     public class TeacherController : Controller
     {
-        private SchoolDbContext School = new SchoolDbContext();
-
         // GET: TeacherList
+        /// <summary>
+        /// Returns webpage containing a list of teachers names, wrapped in anchor tags to navigate to that specific teacher
+        /// </summary>
+        /// <returns>
+        /// A complete list of teachers using their first and last names
+        /// </returns>
         [Route("/Teacher/List")]
         public ActionResult List()
         {
@@ -25,7 +29,12 @@ namespace HTTP5101_Assignment3_AustinCaron.Controllers
         }
 
         // GET: Teacher
-        // [Route("/Teacher/Show/{TeacherId}")]
+        /// <summary>
+        /// Returns webpage containing a specific teacher based on the Id in the URL
+        /// </summary>
+        /// <returns>
+        /// A teacher containing the teacher name, employee number, hire date, salary, and id
+        /// </returns>
         public ActionResult Show(int id)
         {
             TeacherDataController controller = new TeacherDataController();
