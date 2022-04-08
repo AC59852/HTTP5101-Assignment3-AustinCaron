@@ -54,6 +54,8 @@ namespace HTTP5101_Assignment3_AustinCaron.Controllers
                 NewTeacher.Id = (int)ResultSet["teacherid"];
                 NewTeacher.Name = ResultSet["teacherfname"] + " " + ResultSet["teacherlname"];
                 NewTeacher.EmployeeNumber = ResultSet["employeenumber"].ToString();
+                NewTeacher.TeacherFName = ResultSet["teacherfname"].ToString();
+                NewTeacher.TeacherLName = ResultSet["teacherlname"].ToString();
                 NewTeacher.HireDate = (DateTime)ResultSet["hiredate"];
                 NewTeacher.Salary = (decimal)ResultSet["salary"];
 
@@ -100,6 +102,8 @@ namespace HTTP5101_Assignment3_AustinCaron.Controllers
                 //Set the data from the results to the selected teacher
                 SelectedTeacher.Id = (int)ResultSet["teacherid"];
                 SelectedTeacher.Name = ResultSet["teacherfname"] + " " + ResultSet["teacherlname"];
+                SelectedTeacher.TeacherFName = ResultSet["teacherfname"].ToString();
+                SelectedTeacher.TeacherLName = ResultSet["teacherlname"].ToString();
                 SelectedTeacher.EmployeeNumber = ResultSet["employeenumber"].ToString();
                 SelectedTeacher.HireDate = (DateTime)ResultSet["hiredate"];
                 SelectedTeacher.Salary = (decimal)ResultSet["salary"];
@@ -112,5 +116,59 @@ namespace HTTP5101_Assignment3_AustinCaron.Controllers
             return SelectedTeacher;
         }
 
+        /// <summary>
+        /// Add a new teacher in the database using the data from the form on New.cshtml
+        /// <paramref name="NewTeacher">
+        /// </summary>
+        /// <param name="NewTeacher"></param>
+        [HttpPost]
+        public void AddTeacher(Teacher NewTeacher)
+        {
+            MySqlConnection Conn = School.AccessDatabase();
+
+            // Open the connection between the web server and database
+            Conn.Open();
+
+            // Establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            string query = "INSERT INTO teachers (teacherfname, teacherlname, employeenumber, hiredate) values(@teacherfname,@teacherlname,@employeenumber, CURRENT_DATE())";
+            cmd.CommandText = query;
+            cmd.Parameters.AddWithValue("@teacherfname", NewTeacher.TeacherFName);
+            cmd.Parameters.AddWithValue("@teacherlname", NewTeacher.TeacherLName);
+            cmd.Parameters.AddWithValue("@employeenumber", NewTeacher.EmployeeNumber);
+
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
+        }
+
+        /// <summary>
+        /// Delete a Teacher in the database based on the teacher Id
+        /// </summary>
+        /// <param name="Id"></param>
+        public void DeleteTeacher(int Id)
+        {
+            MySqlConnection Conn = School.AccessDatabase();
+
+            // Open the connection between the web server and database
+            Conn.Open();
+
+            // Establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            string query = "DELETE FROM teachers WHERE teacherid=@id";
+
+            cmd.Parameters.AddWithValue("@id", Id);
+            cmd.CommandText= query;
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
+
+        }
     }
 }
