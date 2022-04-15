@@ -1,0 +1,35 @@
+﻿<!-- Call the model to be able to use the teacher data -->
+@model HTTP5101_Assignment3_AustinCaron.Models.Teacher
+
+@{
+    // Viewbag title changes the name of the page
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit Teacher</h2>
+<nav>
+    <a href="/Teacher/List">Back to Teachers List</a> &nbsp;
+    <a href="/Teacher/Show/@Model.Id">Back to @Model.Name</a>
+</nav>
+<!-- Data put in the form from the user will be sent through POST method to create the new teacher -->
+<form method="POST" action="/Teacher/Update/@Model.Id">
+    <!-- adding required makes sure that there is at least something in the input field -->
+    <div>
+        <label>First Name:</label>
+        <input type="text" value="@Model.TeacherFName" name="teacherfname" required/>
+    </div>
+    <div>
+        <label>Last Name:</label>
+        <input type="text" value="@Model.TeacherLName" name="teacherlname" required/>
+    </div>
+    <div>
+        <label>Employee Number:</label>
+        <input type="text" value="@Model.EmployeeNumber" name="employeenumber" />
+    </div><div>
+        <label>Salary:</label>
+        <input type="text" value="@Model.Salary" name="salary" />
+    </div>
+    <div>
+        <input type="submit" value="Edit Teacher" />
+    </div>
+</form>
