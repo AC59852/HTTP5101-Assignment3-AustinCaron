@@ -64,7 +64,7 @@ namespace HTTP5101_Assignment3_AustinCaron.Controllers
         /// so that they can see the new Teacher in the list
         /// </summary>
         [HttpPost]
-        public ActionResult Create(string teacherfname, string teacherlname, string employeenumber)
+        public ActionResult Create(string teacherfname, string teacherlname, string employeenumber, decimal salary)
         {
             Debug.WriteLine("the Teacher info is: " + teacherfname + " " + teacherlname + ", with employee number: " + employeenumber);
 
@@ -72,6 +72,7 @@ namespace HTTP5101_Assignment3_AustinCaron.Controllers
             NewTeacher.TeacherFName = teacherfname;
             NewTeacher.TeacherLName = teacherlname;
             NewTeacher.EmployeeNumber = employeenumber;
+            NewTeacher.Salary = salary;
 
             TeacherDataController controller = new TeacherDataController();
             controller.AddTeacher(NewTeacher);
@@ -107,6 +108,42 @@ namespace HTTP5101_Assignment3_AustinCaron.Controllers
             controller.DeleteTeacher(id);
 
             return RedirectToAction("List");
+        }
+
+        // GET Edit
+        public ActionResult Edit(int id)
+        {
+            // Pass TeacherInfo to the view to display it in the input fields
+            TeacherDataController controller = new TeacherDataController();
+            Teacher SelectedTeacher = controller.GetTeacher(id);
+
+            return View(SelectedTeacher);
+        }
+
+        // POST Update
+        /// <summary>
+        /// Reroutes the user back to the /Teacher/Show page to view the newly updated content
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>A webpage that displayed the edited content from the users form submission</returns>
+        [HttpPost]
+        public ActionResult Update(int id, string teacherfname, string teacherlname, string employeenumber, decimal salary)
+        {
+
+            Teacher TeacherInfo = new Teacher();
+
+            // setting the variables in the teacher object to the received data from the form update
+            TeacherInfo.TeacherFName = teacherfname;
+            TeacherInfo.TeacherLName = teacherlname;
+            TeacherInfo.EmployeeNumber = employeenumber;
+            TeacherInfo.Salary = salary;
+
+            // Update the Teacher information
+            TeacherDataController controller = new TeacherDataController();
+            controller.UpdateTeacher(id, TeacherInfo);
+
+            // Returns to the Teacher page that was just edited
+            return RedirectToAction("/Show/" + id);
         }
     }
 }

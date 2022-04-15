@@ -5,15 +5,22 @@
     // Viewbag title changes the name of the page
     ViewBag.Title = "Show";
 }
-<h2>Teacher Name: @Model.Name</h2>
-<h3>Info:</h3>
-<ul>
-    <!-- using the data from the model, populate each list element with the relevant data -->
-    <li><p>Employee Number: @Model.EmployeeNumber</p></li>
-    <li><p>Hire Date: @Model.HireDate</p></li>
-    <li><p>Salary: @Model.Salary</p></li>
-</ul>
+<div>
+    <br />
+    <nav>
+        <a class="navlink" href="/Teacher/List">Back to Teachers</a> &nbsp;
+        <a class="navlink" href="/Teacher/Edit/@Model.Id">Edit</a>
+    </nav>
+    <h2>Teacher Name: @Model.Name</h2>
+    <h3>Info:</h3>
+    <ul>
+        <!-- using the data from the model, populate each list element with the relevant data -->
+        <li><p>Employee Number: @Model.EmployeeNumber</p></li>
+        <li><p>Hire Date: @Model.HireDate</p></li>
+        <li><p>Salary: $@Model.Salary</p></li>
+    </ul>
 
-<!-- Link to confirm the deletion of Teacher -->
-<a href="/Teacher/DeleteConfirm/@Model.Id">Delete This Teacher</a>
+    <!-- Link to confirm the deletion of Teacher -->
+    <a href="/Teacher/DeleteConfirm/@Model.Id">Delete This Teacher</a>
+</div>
 
